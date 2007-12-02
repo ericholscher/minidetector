@@ -10,6 +10,14 @@ def process_request(request):
         #Then it's running opera mini. 'Nuff said.
         request.mobile = True
         return None
+    
+    if request.META.has_key("HTTP_ACCEPT"):
+        s = request.META["HTTP_ACCEPT"].lower()
+        if 'application/vnd.wap.xhtml+xml' in s:
+            # Then it's a wap browser
+            request.mobile = True
+            return None
+        
     if request.META.has_key("HTTP_USER_AGENT"):
         for ua in search_strings:
             s = request.META["HTTP_USER_AGENT"].lower()
