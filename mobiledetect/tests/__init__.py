@@ -1,7 +1,6 @@
 from unittest import TestSuite, TestCase, TextTestRunner, TestLoader
 
 import mobiledetect
-import mobiledetect.middleware
 
 import os.path
 
@@ -15,13 +14,13 @@ class TestHTTPHeaders(TestCase):
     def test_wap(self):
         request = DummyRequest("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8b5) Gecko/20051019 Flock/0.4 Firefox/1.0+")
         request.META['HTTP_ACCEPT'] = 'application/vnd.wap.xhtml+xml'
-        mobiledetect.middleware.process_request(request)
+        mobiledetect.Middleware.process_request(request)
         self.assert_(request.mobile, "WAP not Detected")
         
     def test_opera_mini(self):
         request = DummyRequest("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8b5) Gecko/20051019 Flock/0.4 Firefox/1.0+")
         request.META['HTTP_X_OPERAMINI_FEATURES'] = 'secure'
-        mobiledetect.middleware.process_request(request)
+        mobiledetect.Middleware.process_request(request)
         self.assert_(request.mobile, "Opera Mini not Detected")
 
 
@@ -31,7 +30,7 @@ def MobileDetectionFactory(uas, expected):
 
         def testUA(self, ua):
             request = DummyRequest(ua)
-            mobiledetect.middleware.process_request(request)
+            mobiledetect.Middleware.process_request(request)
             if self.expected:
                 self.assert_(request.mobile,
                              "Mobile Not Detected: %s" % ua)
