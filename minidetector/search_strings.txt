@@ -1,5 +1,8 @@
 # Adapted from http://pub.mowser.com/wiki/Main/CodeExamples
 # With a few additions by Moof
+# The latest version of this file is always available from:
+# http://minidetector.googlecode.com/svn/trunk/minidetector/search_strings.txt
+#
 # This list is public domain, please feel free to use it for your own projects
 # If HTTP_USER_AGENT.lower() contains any of these strings, it's a mobile
 # Also include some games consoles, see below
