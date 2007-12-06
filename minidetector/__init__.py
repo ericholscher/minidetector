@@ -4,11 +4,14 @@ from useragents import search_strings
 class Middleware(object):
     @staticmethod
     def process_request(request):
-        """Adds a "mobile" attribute to the request which is True or False depending
-           on whether the request should be considered form a mobile phone."""
+        """Adds a "mobile" attribute to the request which is True or False
+           depending on whether the request should be considered to come from a
+           small-screen device such as a phone or a PDA"""
 
         if request.META.has_key("HTTP_X_OPERAMINI_FEATURES"):
             #Then it's running opera mini. 'Nuff said.
+            #Reference from:
+            # http://dev.opera.com/articles/view/opera-mini-request-headers/
             request.mobile = True
             return None
 
@@ -20,6 +23,10 @@ class Middleware(object):
                 return None
 
         if request.META.has_key("HTTP_USER_AGENT"):
+            # This takes the most processing. Surprisingly enough, when I
+            # Experimented on my own machine, this was the most efficient
+            # algorithm. Certainly more so than regexes.
+            # Also, Caching didn't help much, with real-world caches.
             for ua in search_strings:
                 s = request.META["HTTP_USER_AGENT"].lower()
                 if ua in s:
@@ -31,8 +38,9 @@ class Middleware(object):
         return None
 
 def detect_mobile(view):
-    """View Decorator that adds a "mobile" attribute to the request which is True or False depending
-       on whether the request should be considered form a mobile phone."""
+    """View Decorator that adds a "mobile" attribute to the request which is
+       True or False depending on whether the request should be considered
+       to come from a small-screen device such as a phone or a PDA"""
        
     def detected(request, *args, **kwargs):
         middleware.process_request(request)
