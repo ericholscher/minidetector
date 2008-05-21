@@ -52,6 +52,8 @@ wap2.
 plucker
 480x640
 sec
+# The Google transcoder
+google wireless transcoder
 # These are games consoles that either have a small screen or display on a
 # TV. Best to treat them as mobiles for web display
 nintendo
