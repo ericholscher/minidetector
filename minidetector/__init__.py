@@ -27,8 +27,8 @@ class Middleware(object):
             # Experimented on my own machine, this was the most efficient
             # algorithm. Certainly more so than regexes.
             # Also, Caching didn't help much, with real-world caches.
+            s = request.META["HTTP_USER_AGENT"].lower()
             for ua in search_strings:
-                s = request.META["HTTP_USER_AGENT"].lower()
                 if ua in s:
                     request.mobile = True
                     return None
@@ -41,7 +41,7 @@ def detect_mobile(view):
     """View Decorator that adds a "mobile" attribute to the request which is
        True or False depending on whether the request should be considered
        to come from a small-screen device such as a phone or a PDA"""
-       
+
     def detected(request, *args, **kwargs):
         middleware.process_request(request)
         return view(request, *args, **kwargs)
