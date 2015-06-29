@@ -1,4 +1,3 @@
-
 from useragents import search_strings
 
 class Middleware(object):
@@ -43,7 +42,7 @@ def detect_mobile(view):
        to come from a small-screen device such as a phone or a PDA"""
 
     def detected(request, *args, **kwargs):
-        middleware.process_request(request)
+        Middleware.process_request(request)
         return view(request, *args, **kwargs)
     detected.__doc__ = "%s\n[Wrapped by detect_mobile which detects if the request is from a phone]" % view.__doc__
     return detected
